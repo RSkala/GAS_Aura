@@ -1,7 +1,7 @@
 // Copyright Richard Skala
 
 
-#include "AuraCharacterBase.h"
+#include "Character/AuraCharacterBase.h"
 
 //DECLARE_LOG_CATEGORY_EXTERN(LogAuraCharacterBase, Log, Log)
 DEFINE_LOG_CATEGORY(LogAuraCharacterBase)
@@ -10,8 +10,8 @@ DEFINE_LOG_CATEGORY(LogAuraCharacterBase)
 AAuraCharacterBase::AAuraCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	//PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned

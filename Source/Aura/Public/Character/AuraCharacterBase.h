@@ -9,7 +9,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogAuraCharacterBase, Log, Log)
 
-UCLASS()
+UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
