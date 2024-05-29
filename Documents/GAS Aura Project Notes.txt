@@ -3,6 +3,8 @@
 GAS Project Notes
 =================================
 
+https://www.udemy.com/course/unreal-engine-5-gas-top-down-rpg
+
 ==================================================================
 General Notes:
 
@@ -17,6 +19,7 @@ EditAnywhere:
 
 ==================================================================
 4. Base Character Class
+
 Base Character Class for Game:
 * AuraCharacterBase
   * UCLASS(Abstract)
@@ -66,10 +69,59 @@ Adding Weapon / Socket to BP_AuraCharacter:
 Did same with BP_Goblin_Spear
 
 
-
+/Script/Engine.Blueprint'/Game/Blueprints/Character/Aura/BP_AuraCharacter.BP_AuraCharacter'
+/Script/Engine.Blueprint'/Game/Blueprints/Character/Goblin_Spear/BP_Goblin_Spear.BP_Goblin_Spear'
 
 ==================================================================
+7. Animation Blueprints
 
+Create Animation Blueprint
+* Right click -> Animation -> Animation Blueprint
+* Choose a Skeleton asset:  SK_Aura
+* Created file:  ABP_Aura
 
+Creating Animation Graph:
+* Right click AnimGraph -> State Machine
+* Run the State Machine through a Slot before connecting to "Output Pose"
+* Slots are for playing Montages
+
+Blend Space
+-> Find in the Asset Browser in the Animation Blueprint
+
+Note that the IdleWalkRun BlendSpace was already created.
+This saved time for the course.
+TODO: How to create a BlendSpace
+
+Event Graph:
+* Override - Blueprint Initialize Animation 
+* Get Character Movement , on Variables -> Character in Event Graph
+* The purpose of this was so we could access the Character Movement Component in Blueprint Update Animation
+* Set the "GroundSpeed" variable from the Character Movement's XY Velocity
+* Use the GroundSpeed variable to "drive" the BlendSpace
+
+BP_AuraCharacter:
+* Select the Mesh, then set the AnimClass to ABP_Aura
+
+---------------
+Enemies
+* For enemies, we will make a "Template" Animation Blueprint to be used for all of our enemy animation blueprints
+* Right Click -> Animation -> Animation Blueprint -> Template tab
+
+This is set up just like Aura, EXCEPT:
+* In the AnimgGraph, in the "Main States", instead of dragging an IdleWalkRun BlendSpace in a:
+  * Add a "Blend Space Player" -- a generic node.
+Windows: Event Graph, Anim Graph, State (for IdleWalkRun)
+
+ABP_Enemy
+-> ABP_Goblin_Spear
+   * Window -> Asset Override Editor
+   * ABP_Enmy->AnimGraph->Main States->IdleWalkRun->Blendspace Player-> BS_GoblinSpear_IdleRun 
+
+BP_Goblin_Spear
+* Mesh -> Animation -> Animation Class -> ABP_Goblin_Spear
+
+BP_Goblin_Slingshot + ABP_Goblin_Slingshot
+
+==================================================================
 
 
