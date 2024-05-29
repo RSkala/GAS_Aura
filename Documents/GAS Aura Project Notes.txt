@@ -122,6 +122,61 @@ BP_Goblin_Spear
 
 BP_Goblin_Slingshot + ABP_Goblin_Slingshot
 
+
+==================================================================
+8. Enhanced Input
+
+Input Action
+* Required for Enhanced Input in order to take input from a device
+
+Content Browser->Right click->Input->Input Action 
+
+IA_Move
+* /Script/EnhancedInput.InputAction'/Game/Blueprints/Input/InputActions/IA_Move.IA_Move'
+* Value Type: Axis2D (Vector2D)
+* Axis2D / Vector2D because MOVEMENT will be considered in a 2D Space
+  * Note that this is DIFFERENT from the Unreal Axes (which is X-forward, Y-right, Z-up)
+* X Axis = Left / Right
+* Y Axis = Up / Down
+* WASD
+  * W+S => Forward / Back => Y Axis
+  * A+D => Left / Right   => X Axis
+
+---
+
+Input Mapping Context
+* Link Input Actions to a Character via Input Mapping Context
+
+IMC_AuraContext
+Add Input Actions:
+* Mappings->Plus Button->Select IA_Move
+  * D - RIGHT => Positive X Input
+    * Left as is 
+  * A - LEFT  => Negative X Input
+    * Modifier -> Negate
+    * Expand and uncheck Y and Z since those have no meaning in our X axis input
+  * W - UP (FORWARD) => Positive Y Input
+    * Modifier -> Swizzle Input Axis Values
+    * Expand and note the order, which is YXZ
+    * By default, input goes into the X axis first
+    * So this "Swizzle" will feed data into the Y value first instead
+  * A - DOWN (BACKWARD) => Negative Y Input
+    * Modifier -> Negate
+    * Modifier => Swizzle Input Axis Values, YXZ
+
+NOTE:
+* You can handle input either in the player character class or the player controller class
+* It is better to handle movement input in the player controller
+
+
+    
+
+
+
+
+
+
+
 ==================================================================
 
 
