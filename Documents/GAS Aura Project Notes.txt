@@ -1,2 +1,75 @@
 
-----
+=================================
+GAS Project Notes
+=================================
+
+==================================================================
+General Notes:
+
+* When moving C++ files around, make sure you delete Intermediate and Binaries directories. Then Genereate VS Project files.
+* Can create a derived C++ Blueprint class by right-clicking on the C++ Class in the Content Browser and click "Create C++ class derived from X"
+
+TObjectPtr:
+* Has access tracking and lazy loading
+* Standard is to use TObjectPtr for member variables
+
+EditAnywhere:
+
+==================================================================
+4. Base Character Class
+Base Character Class for Game:
+* AuraCharacterBase
+  * UCLASS(Abstract)
+  * Reference:
+    * /Script/CoreUObject.Class'/Script/Aura.AuraCharacterBase'
+
+
+Player Character:
+/Script/Engine.Blueprint'/Game/Blueprints/Character/Aura/BP_AuraCharacter.BP_AuraCharacter'
+C:/Dev/Unreal-Projects/GAS_Aura/Content/Blueprints/Character/Aura/BP_AuraCharacter.uasset
+
+NOTE:
+
+USceneComponent::SetupAttachment() adds the parent and optional socket name to attach to when a scenecomponent is added. (that is, it specifies what the new SceneComponent is being attached TO)
+
+Example:
+	TObjectPtr<USkeletalMeshComponent> Weapon;
+	...
+	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	-> Here, the Weapon SkeletalMeshComponent is attaching itself to the Mesh inherited from the ACharacter.
+
+
+==================================================================
+6. Character Blueprint
+
+Selected Mesh in Blueprint Components (inherited from ACharacter)
+* 
+
+Adding Weapon / Socket to BP_AuraCharacter:
+
+* Added socket to hand_l in the SKM_Aura SkeletalMesh
+  * Open / Edit the SkeletalMesh
+  * In the Skeleton Tree, select the bone, right click -> Add Socket.
+  * Named the socket EXACTLY as named in the C++: WeaponHandSocket
+    * Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+  * We can visualize/position the new socket by right click -> Add Preview Asset -> SKM_Staff
+    * Rotate the WeaponHandSocket by -90 so it faces forward
+  * To preview with an animation:
+    * Preview Scene tab: Animation -> Preview Controller -> Use Specific Animation
+      * For testing, used Cast_FireBolt.
+      * Moved the weaponHandSocket around so it looked better in Aura's hand
+
+* Back in the BP_AuraCharacter, select the Weapon SkeletalMeshComponent:
+  * Change Skeletal Mesh Asset to Staff
+
+Did same with BP_Goblin_Spear
+
+
+
+
+==================================================================
+
+
+
+
