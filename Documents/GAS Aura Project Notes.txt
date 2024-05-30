@@ -217,10 +217,70 @@ Edit->Project Settings->Engine->Input->Default Classes
 * Default Player Input Class:  EnhancedPlayerInput
 * Default Input Component Class: EnhancedInputComponent
 
-Apply input to the directions using the input:
+Apply player's movement input to the directions using the input:
 AddMovementInput
 * ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 * ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+
+=> This likely applies a normalized Vector2D input to the player's current direction
+
+
+==================================================================
+
+11. Game Mode
+
+Game Mode is set in the World Settings
+
+C++ Class:
+AAuraGameModeBase : GameModeBase
+
+Blueprint:
+BP_AuraGameMode : AuraGameModeBase
+* Settings:
+  * Player Controller Class:  BP_AuraPlayerController
+  * Default Pawn Class:       BP_AuraCharacter
+
+StartupMap:
+* GameMode Override:  BP_AuraGameMode
+
+Add Player Start in Map via add button at top of Level menu:
+* Basic->Player Start
+
+Added Camera and Spring Arm to the BP_AuraCharacter Blueprint
+
+SpringArm Settings:
+* Rotated SpringArm to -45 degrees around Y
+* Set Target Arm Length to 750
+* Camera Settings->Use Pawn Control Rotation = FALSE (default)
+  * We dont want to rotate the spring arm with the controller
+* Enable Camera Lag: TRUE
+
+
+Camera Settings:
+* Camera Options->Use Pawn Control Rotation = FALSE (default)
+  * This is the ensure the camera will truly be fixed
+
+
+AuraCharacter.cpp:
+This wasn't auto-included, I needed to manually add this in order to use UCharacterMovmentComponent:
+#include "GameFramework/CharacterMovementComponent.h"
+
+Update:
+When running game, camera would rotate when pressing movement inputs (WASD)
+FIX:
+* In BP_AuraCharacter, select SpringArm:
+  * Camera Settings, set all of these to FALSE:
+    * Inherit Pitch, Inherit Yaw, Inherit Roll  => ALL UNCHECKED
+
+
+ABP_Aura:
+* Changed states a little, added Idle and renamed IdleWalkRun to Running
+* Added bool ShouldMove
+* In Event Blueprint Update Animation, set ShouldMove to true, if GroundSpeed < 3.0 (Note: This seems backwards -- maybe this is just for the transitions. This value should be renamed to something like ShouldTransitionToMoveAnimation). Update: He actually made a mistake, as he pointed out, should be > 3.0
+"ShouldMove" should be True if GroundSpeed is GREATER THAN 3
+* In transitions to and from Idle and Running, check the value of ShouldMove
+
+In Idle state, make sure Loop Animation is TRUE
 
 
 ==================================================================
