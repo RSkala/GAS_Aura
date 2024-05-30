@@ -184,3 +184,11 @@ NOTE:
 * You will probably need to select Aura in the Solution Explorer, right click -> Set as startup project
 
 Subsystems:  Are essentially Singletons
+
+Add an InputMappingContext in the Player Controller by first getting the UEnhancedInputLocalPlayerSubsystem.
+Then adding the mapping context to the subsystem:
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	Subsystem->AddMappingContext(AuraInputMappingContext, 0);
+
+==================================================================
