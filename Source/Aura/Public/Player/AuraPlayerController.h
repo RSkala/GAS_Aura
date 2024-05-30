@@ -16,8 +16,15 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+
+private:
+	void Move(const struct FInputActionValue& InputActionValue);
 
 private:
 	UPROPERTY(EditAnywhere, Category  = "Input")
 	TObjectPtr<class UInputMappingContext> AuraInputMappingContext;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<class UInputAction> AuraMoveInputAction;
 };

@@ -192,3 +192,37 @@ Then adding the mapping context to the subsystem:
 	Subsystem->AddMappingContext(AuraInputMappingContext, 0);
 
 ==================================================================
+10. Movement Input
+
+PlayerController already has a InputComponent variable.
+It actually stores an object of type UEnhancedInputComponent:
+
+UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+
+
+Note that the FRotator constructor has the order weird:
+FORCEINLINE TRotator( T InPitch, T InYaw, T InRoll );
+
+	=> (Y-angle, Z-angle, X-angle)
+
+So we have to use it like this:
+
+const FRotator CurrentControlRotation = GetControlRotation();
+const FRotator YawRotation(0.0f, CurrentControlRotation.Yaw, 0.0f);
+
+---
+We know the InputComponent is of type UEnhancedInputComponent because we can verify the following:
+
+Edit->Project Settings->Engine->Input->Default Classes
+* Default Player Input Class:  EnhancedPlayerInput
+* Default Input Component Class: EnhancedInputComponent
+
+Apply input to the directions using the input:
+AddMovementInput
+* ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
+* ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+
+
+==================================================================
+
+
