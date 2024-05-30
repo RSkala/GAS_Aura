@@ -168,15 +168,19 @@ NOTE:
 * You can handle input either in the player character class or the player controller class
 * It is better to handle movement input in the player controller
 
-
-    
-
-
-
-
-
-
-
 ==================================================================
+9. Aura Player Controller
 
+Aura.Build.cs:
+* Ensure we have access to the "Enhanced Input Module"
+* C:\Dev\Unreal-Projects\GAS_Aura\Source\Aura\Aura.Build.cs
+* Added "EnhancedInput" to the public dependencies:
+  PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 
+NOTE:
+* After adding the AuraPlayerController cpp files, I needed to delete the Intermediates and Binaries directories. You MUST shut down Visual Studio in order to delete the Intermediates directory.
+* Then you must right click the uproject file -> Generate Visual Studio Project Files
+  * If you don't do this, then the VS solution will be broken when you open it (stuff missing)
+* You will probably need to select Aura in the Solution Explorer, right click -> Set as startup project
+
+Subsystems:  Are essentially Singletons
