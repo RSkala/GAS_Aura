@@ -284,5 +284,23 @@ In Idle state, make sure Loop Animation is TRUE
 
 
 ==================================================================
+12. Enemy Interface
+
+To create a C++ interface class:
+* Right-click->Create C++ Class->
+
+Note that a UINTERFACE() class will be created, but you don't use that.
+You use the the one generated below, e.g.
+class AURA_API IEnemyInterface
 
 
+Pure Virtual Function:
+virtual void HighlightActor() = 0;
+* No definition provided, class is now considered abstract
+
+When accessing pointers of Interfaces use:
+
+TScriptInterface<T>
+
+
+==================================================================
