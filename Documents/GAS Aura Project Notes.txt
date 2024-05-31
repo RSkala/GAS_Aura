@@ -351,3 +351,68 @@ if (ThisActor != LastActor)
 }
 
 ==================================================================
+14. Post Process Highlight
+
+Reparent Blueprints:
+* In Details->Class Options->Parent Class
+OR
+* File->Reparent Blueprint
+
+----------------------------
+Post Processing
+
+For highlighting, we need a Post Process Volume:
+* Tool Bar->Quick Add->Volumes->Post Process Volume
+
+Post Process Volume Settings:
+* Infinite Extent (Unbound) :  Set to TRUE (checked)
+  * If we add any post-process materials, this will affect the entire level
+
+Post Process Materials:
+* Add one by clicking the + and add with Asset Reference
+
+* The asset pack for this has one:
+  * Content/Assets/Materials/PP_Highlight
+  * This uses the "Custom Depth Stencil". The project needs to be configured to use this.
+
+Edit->Project Settings->Engine->Rendering->Postprocessing->Custom Depth-Stencil Pass
+* It is marked as "Enabled", but it must be set to "Enabled with Stencil"
+  * The highlight WONT work without this setting
+
+ENABLING THE HIGHLIGHT
+Select a Goblin in the world
+* In the Details, select the Mesh:
+* Details->Rendering->Advanced->Render CustomDepth Pass:  TRUE
+* Can now set the CustomDepth Stencil Value:  Set to 250.
+  * NOTE: This value is set somewhere in the PP_Highlight material
+    * Note regarding the PP_Highlight:
+      * The 1.6 value at the very beginning is the SCALE of the size of the outline. A larger number will thicken the line.
+
+In short:
+To ENABLE:
+* In the Mesh, set Render CustomDepth Pass to TRUE and set the CustomDepth Stencil Value to 250
+
+To DISABLE:
+* In the Mesh, set Render CustomDepth Pass to FALSE
+
+
+GetMesh()->SetRenderCustomDepth(true);
+GetMesh()->SetCustomDepthStencilValue(250);
+
+----------------
+Note on Collision Response:
+
+Setting via C++
+if (USkeletalMeshComponent* EnemySkeletalMesh = GetMesh())
+{
+	EnemySkeletalMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+}
+
+This is the same as:
+Details->Collision Presets->Collision Responses->Trace Responses->Visibility: BLOCK
+* Can do this on the CapsuleComponent or the Mesh
+* The C++ above will also automatically change the collision presets to "Custom"
+
+
+
+==================================================================

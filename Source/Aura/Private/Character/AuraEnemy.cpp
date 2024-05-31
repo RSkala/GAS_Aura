@@ -6,6 +6,15 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogAuraEnemy, Log, All)
 
+AAuraEnemy::AAuraEnemy()
+{
+	// Set correct collision response
+	if (USkeletalMeshComponent* EnemySkeletalMesh = GetMesh())
+	{
+		EnemySkeletalMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	}
+}
+
 void AAuraEnemy::HighlightActor()
 {
 	UE_LOG(LogAuraEnemy, Log, TEXT("AAuraEnemy::HighlightActor - %s"), *GetName());
