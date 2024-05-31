@@ -300,7 +300,54 @@ virtual void HighlightActor() = 0;
 
 When accessing pointers of Interfaces use:
 
-TScriptInterface<T>
+	UPROPERTY()
+	TScriptInterface<class IEnemyInterface> LastActor;
 
+
+==================================================================
+14. Highlight Enemies
+
+NOTE:
+* Ensure Collision is set properly
+* Select Capsule Component (CollisionCylinder)
+* Collision Presets 
+  * This is currently set to Pawn with Trace Responses->Visibility set to Ignore
+  * Change to CUSTOM with Trace Responses->Visibility set to BLOCK
+* If the above is NOT set, then the hit result will fail (or only "hit" the floor collision):
+   (Note that by default Static Meshes, such as the floor are set to BlockAll preset)
+
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit)
+	{
+		return;
+	}
+
+NOTE: In the video, he sets this on the Mesh (CharacterMesh0)
+* 
+
+
+  https://dev.epicgames.com/documentation/en-us/unreal-engine/collision-in-unreal-engine?application_version=5.4
+
+  https://dev.epicgames.com/documentation/en-us/unreal-engine/collision-response-reference-in-unreal-engine
+
+Process player input using PlayerTick (inherited from PlayerController):
+virtual void PlayerTick(float DeltaTime) override;
+
+PlayerController already has several functions for getting collision under the mouse:
+bool GetHitResultUnderCursor
+
+if (ThisActor != LastActor)
+{
+    if (LastActor != nullptr)
+    {
+       LastActor->UnhighlightActor();
+    }
+ 
+    if (ThisActor != nullptr)
+    {
+       ThisActor->HighlightActor();
+    }
+}
 
 ==================================================================

@@ -33,7 +33,7 @@ void AAuraCharacterBase::BeginPlay()
 // Called every frame
 void AAuraCharacterBase::Tick(float DeltaTime)
 {
-	UE_LOG(LogAuraCharacterBase, Log, TEXT("AAuraCharacterBase::Tick"));
+	//UE_LOG(LogAuraCharacterBase, Log, TEXT("AAuraCharacterBase::Tick"));
 	Super::Tick(DeltaTime);
 }
 

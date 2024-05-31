@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Interaction/EnemyInterface.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogAuraPlayerController, Log, All)
 
@@ -14,6 +15,15 @@ AAuraPlayerController::AAuraPlayerController()
 
 	// Ensure this player controller is replicated (sent from server to all clients)
 	bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	//UE_LOG(LogAuraPlayerController, Log, TEXT("AAuraPlayerController::PlayerTick - %s"), *GetName());
+	Super::PlayerTick(DeltaTime);
+	
+	// Perform trace here
+	CursorTrace();
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -57,7 +67,7 @@ void AAuraPlayerController::SetupInputComponent()
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
-	UE_LOG(LogAuraPlayerController, Log, TEXT("AAuraPlayerController::Move - InputAxisVector: %s"), *InputAxisVector.ToString());
+	//UE_LOG(LogAuraPlayerController, Log, TEXT("AAuraPlayerController::Move - InputAxisVector: %s"), *InputAxisVector.ToString());
 
 	// First, figure out which direction is "forward" for the Character
 
@@ -85,5 +95,71 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 		// Handle left/right movement so use RightDirection and use the X value of the movement input for the scale [-1..1]
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	//UE_LOG(LogAuraPlayerController, Log, TEXT("AAuraPlayerController::CursorTrace - %s"), *GetName());
+
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit)
+	{
+		return;
+	}
+
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor(); // No need for a Cast here because of TScriptInterface
+
+	// Line trace from cursor. There are several scenarios:
+	// * A. LastActor is null && ThisActor is null
+	//   - This means we are not highlighting anything valid and also did not in the previous frame
+	//   - Do nothing
+	// * B. LastActor is null && ThisActor is valid
+	//   - This means that we were NOT highlighting ThisActor in the previous frame
+	//   - Highlight ThisActor
+	// * C. LastActor is valid && ThisActor is null
+	//   - This means we hovered over an IEnemyInterface last frame and in this frame we are no longer highlighting it
+	//   - Unhighlight LastActor
+	// * D. Both actors are valid, but LastActor != ThisActor
+	//   - This means Hovering over one enemy and now highlighting a different enemy
+	//   - Unhighlight LastActor and Highlight ThisActor
+	// * E. Both actors are valid, but LastActor == ThisActor
+	//   - This means we are still highlighting the same actor
+	//   - Do nothing
+
+	if (LastActor == nullptr)
+	{
+		if (ThisActor != nullptr)
+		{
+			// Case B
+			ThisActor->HighlightActor();
+		}
+		else
+		{
+			// Case A - Both are null, do nothing
+		}
+	}
+	else // LastActor is valid
+	{
+		if (ThisActor == nullptr)
+		{
+			// Case C
+			LastActor->UnhighlightActor();
+		}
+		else // Both actors are valid
+		{
+			if (LastActor != ThisActor)
+			{
+				// Case D
+				LastActor->UnhighlightActor();
+				ThisActor->HighlightActor();
+			}
+			else
+			{
+				// Case E - Do nothing
+			}
+		}
 	}
 }
