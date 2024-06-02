@@ -92,3 +92,17 @@ First Steps:
 3. Attribute Set
 
 ============================================================
+17. The Player State
+
+Adding Player State
+
+Change Player State used by the game by opening the Game Mode class
+
+Game Mode Blueprint->Classes->Player State Class
+
+Game Mode:     BP_AuraGameMode
+Player State:  BP_AuraPlayerState
+
+Our Ability System Component and Attribute Set are going to "live" on the Player State (for the player)
+
+============================================================
