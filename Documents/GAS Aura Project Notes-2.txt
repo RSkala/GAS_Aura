@@ -106,3 +106,58 @@ Player State:  BP_AuraPlayerState
 Our Ability System Component and Attribute Set are going to "live" on the Player State (for the player)
 
 ============================================================
+18. Ability System Component and Attribute Set
+
+Enable GAS:
+In order to use GAS, you must enable the Plugin first:
+* Edit->Plugins->Gameplay->Gameplay Abilities
+  * Check the box and restart the editor
+
+* This updates the uproject file and enables in the plugin 
+
+-------------------------------------
+IMPORTANT NOTE:
+* In order to build the project, you MUST add the following modules in the Aura.Build.cs:
+
+Documentation here:
+https://docs.unrealengine.com/4.27/en-US/InteractiveExperiences/GameplayAbilitySystem/
+
+From the Docs:
+PublicDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags", "GameplayTasks", "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
+
+Note that the course adds them to the "PrivateDependencyModuleNames" instead of Public
+
+Modules Documentation:
+https://dev.epicgames.com/documentation/en-us/unreal-engine/gameplay-modules-in-unreal-engine?application_version=5.1
+
+https://ikrima.dev/ue4guide/build-guide/build-target-file-demystified/#publicdependencymodulenames-vs-privatedependencymodulenames
+
+NOTE:
+* You need to refresh the VS project files after adding module dependencies
+
+-----------------------------------
+
+Creating an ASC class:
+* Content Browser->Right-click->New C++ Class->ActorComponent->GameplayTasksComponent->AbilitySystemComponent
+  * Subclass of UAbilitySystemComponent, which is ultimately a UActorComponent
+
+Creating an Attribute Set:
+* Content Browser->Right-click->New C++ Class->Object->AttributeSet
+  * Subclass of UAttributeSet
+
+
+AuraAbilitySystemComponent
+* This will be the base class for all ASC's in the project
+
+AuraAttributeSet
+* Attribute Set for the project
+
+
+
+
+
+
+============================================================
+
+
+
