@@ -153,6 +153,46 @@ AuraAttributeSet
 * Attribute Set for the project
 
 ============================================================
+19. GAS in Multiplayer
 
+Dedicated Server:
+* No human player
+* No rendering to a screen
 
+Listen Server:
+* Is a human player (e.g. Hosting)
+* Host has the advantage - no lag
+
+Server is the Authority
+* Server is always the "Correct" version of the game
+* We do "important" things on the Server
+
+-------------------
+Game Mode:
+* ONLY exists on the Server (will be null on clients)
+
+Player Controller:
+* Each client each has their own player controller. 
+* Server has a Player Controller for EACH player
+
+Player States:
+* All Player States exists on Server
+* All Player States also exist on each client (as well as the Pawns)
+
+HUD & Widgets
+* Each client has its own HUD class and Widgets
+* No HUD or widgets on server
+
+-------------------
+Replication:
+* When data is transferred from the Server to clients, this is called Replication
+* Replication only works in ONE direction (i.e. from Server to Clients)
+* If a variable is marked as "Replicated", it should not be changed on the Client
+  * If it IS updated on a Client, then it would be considered "incorrect" and "out of sync"
+
+RPC's:
+* Remote Procedure Calls. This is how a Client can update and not be out of sync.
+* GAS handles a lot of this under the hood
+
+============================================================
 
