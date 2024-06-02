@@ -2,12 +2,93 @@
 Section 3 - Intro to the Gameplay Ability System
 =================================================
 
+GAS Basics:
+* Attributes & Abilities
+
+* Attributes:
+  Examples: Life, Damage, Critical Hit Chance
+
+* Abilities:
+  Examples: Play Animation, Cause Damage, Gain XP, Level up
+
+* Effects:
+  Change Attribute Values
+  e.g. Buffs, Debuffs can be applied
+
+* Cues:
+  Visual & Audio Cues, e.g. Particles and Sounds
+
+Notes:
+* GAS is fully replicated
+* Easily scalable
+* The Gameplay Ability System was originally built for the game Paragon
+
+============================================================
+16. The Main Parts of GAS
+
+1. Ability System Component
+2. Attribute Set
+3. Gameplay Ability
+4. Ability Task
+5. Gameplay Effect
+6. Gameplay Cue
+7. Gameplay Tag
 
 
 
+* Ability System Component:
+  * Added to an actor
+  * Granting abilities
+  * Handling Notifications
+  * Must be added to a character in order for a character to use GAS
+
+* Attribute Set
+  * Attributes stored in the attribute set
+  * Life, Mana, etc
+  * Store attributes on attribute set
+
+* Gameplay Ability
+  * Classes used to encapsulate the functionality of "things" a character can do
+
+* Abilty Task
+  * Asychronous
+  * the "workers"
+
+* Gameplay Effect
+  * Change abilities
+
+* Gameplay Cue
+  * Particle effects and sounds
+  * Handles replication of these
+
+* Gameplay Tag
+  * These are not uniquely GAS 
+  * These exist outside of GAS
+  * Extremely useful and used throughout GAS
+  * Example: Abilities.Lightning.Shock
 
 
+You can add an Ability System Component and an Attribute Set to:
+* Pawn
+* Player State
 
+Note:
+* If you put it on the Pawn and the Pawn is destroyed, to ASC and AS are also destroyed!
+* So it is better to put on the Player State (which persists when the Pawn is destroyed)
+* Also putting on the Player State keeps the character class cleaner
+* However, putting the GAS stuff on an AI might be simpler.
 
+In this project:
 
+Enemy Character
+* An Enemy Character (AuraEnemy) will have the ASC and AS directly on the Enemy Character
 
+Player Controlled Character
+* Will have the ASC and AS on the Player State
+
+First Steps:
+1. Player State class
+2. Ability System Component
+3. Attribute Set
+
+============================================================
