@@ -1,7 +1,10 @@
 // Copyright Richard Skala
 
 
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
+
 #include "Character/AuraEnemy.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogAuraEnemy, Log, All)
@@ -13,6 +16,15 @@ AAuraEnemy::AAuraEnemy()
 	{
 		EnemySkeletalMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	}
+
+	// Create the Ability System Component for this enemy
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+
+	// Ensure the ASC is replicated
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	// Construct the Attribute Set 
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighlightActor()

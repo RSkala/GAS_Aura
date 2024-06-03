@@ -195,4 +195,34 @@ RPC's:
 * GAS handles a lot of this under the hood
 
 ============================================================
+20. Construction the ASC and AS
 
+Add Components and subobjects to an object using CreateDefaultSubobject:
+
+AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+
+  UPROPERTY()
+  TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
+
+  UPROPERTY()
+  TObjectPtr<class UAttributeSet> AttributeSet;
+
+
+In order to use the ability system, you need to implement the IAbilitySystemInterface interface:
+
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
+
+In order to do this, the "GameplayAbilities" module needed to be moved into the PublicDependencyModuleNames in the Aura.Build.cs file
+ (and therefore moved out of the PrivateDependencyModuleNames).
+
+Also had to manually add this include in the header AuraCharacterBase.h 
+#include "AbilitySystemInterface.h"
+
+We need this so we can implement the pure virtual method GetAbilitySystemComponent:
+
+/** Returns the ability system component to use for this actor. It may live on another actor, such as a Pawn using the PlayerState's component */
+virtual UAbilitySystemComponent* GetAbilitySystemComponent() const = 0;
+
+============================================================
