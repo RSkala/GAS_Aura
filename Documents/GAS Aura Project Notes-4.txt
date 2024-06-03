@@ -2,3 +2,18 @@
 Section 5 - RPG Game UI
 ========================
 
+============================================================
+23. Game UI Architecture
+
+* Model, View, Controller
+
+Widgets:
+* UUserWidget
+
+Model, View, Controller:
+3 Different Domains:
+* View: Widgets, UI elements
+* Model: Data that drives the widgets
+* Controller: Responsible for retrieving data from the model and passing to the view (Widget Controller)
+
+============================================================
