@@ -50,3 +50,31 @@ So, a Health Bar could show:
 Fraction: Health / MaxHealth
 
 ============================================================
+24. Health and Mana
+
+To Replicate a variable:
+* It needs to be marked as Replicated and have a "RepNotify"
+    (Note: There is also a specifier "Replicated")
+
+	UPROPERTY(ReplicatedUsing = OnRep_Health)
+	FGameplayAttributeData Health;
+
+An OnRep function must be a UFUNCTION()
+An OnRep function can have zero arguments or 1 argument and that parameter must be of the same type.
+If you do add a parameter, it will be the Old value, which is extremely useful.
+
+In order for the Gameplay Ability System to process these changes use:
+GAMEPLAYATTRIBUTE_REPNOTIFY
+
+This will notify the GAS that "Health" has just been Replicated:
+GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Health, OldHealth);
+
+In order to use replication, you MUST also override the function GetLifetimeReplicatedProps() in order to replicate any variables.
+
+virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+DOREPLIFETIME_CONDITION_NOTIFY => You can set a condition in order for the variable to be replicated
+
+DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Health, COND_None, REPNOTIFY_Always);
+
+============================================================
