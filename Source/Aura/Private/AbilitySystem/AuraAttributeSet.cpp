@@ -3,7 +3,6 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 
-#include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogAuraAttributeSet, Log, All)
@@ -11,6 +10,12 @@ DEFINE_LOG_CATEGORY_STATIC(LogAuraAttributeSet, Log, All)
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	UE_LOG(LogAuraAttributeSet, Log, TEXT("UAuraAttributeSet::UAuraAttributeSet - %s"), *GetName());
+
+	// EXPERIMENTAL
+	InitHealth(100.0f);
+	InitMaxHealth(100.0f);
+	InitMana(50.0f);
+	InitMaxMana(50.0f);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

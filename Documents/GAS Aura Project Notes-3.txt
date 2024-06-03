@@ -78,3 +78,53 @@ DOREPLIFETIME_CONDITION_NOTIFY => You can set a condition in order for the varia
 DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Health, COND_None, REPNOTIFY_Always);
 
 ============================================================
+25. Attribute Accessors
+
+To create a Getter for a GAS attribute:
+GAMEPLAYATTRIBUTE_PROPERTY_GETTER(UAuraAttributeSet, Health);
+
+
+In AttributeSet.h:
+
+/**
+ * This defines a set of helper functions for accessing and initializing attributes, to avoid having to manually write these functions.
+ * It would creates the following functions, for attribute Health
+ *
+ *	static FGameplayAttribute UMyHealthSet::GetHealthAttribute();
+ *	FORCEINLINE float UMyHealthSet::GetHealth() const;
+ *	FORCEINLINE void UMyHealthSet::SetHealth(float NewVal);
+ *	FORCEINLINE void UMyHealthSet::InitHealth(float NewVal);
+ *
+ * To use this in your game you can define something like this, and then add game-specific functions as necessary:
+ * 
+ *	#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+ *	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+ *	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+ *	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+ *	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+ * 
+ *	ATTRIBUTE_ACCESSORS(UMyHealthSet, Health)
+ */
+
+ This way you can just use:
+ ATTRIBUTE_ACCESSORS()
+ instead of all 4 of the above for each attribute
+
+ Example Usage:
+ 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
+	FGameplayAttributeData Health;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
+
+ Then can call:
+ InitMaxHealth(100.0f);
+
+ Note: Normally, we don't use these to change values, we use Gameplay Effects for that.
+
+ ------------------------------------
+ For testing, use Console Command:
+
+ > ShowDebug AbilitySystem
+
+ ------------------------------------
+
+============================================================
