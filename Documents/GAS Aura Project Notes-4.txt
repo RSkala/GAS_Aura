@@ -3,7 +3,7 @@ Section 5 - RPG Game UI
 ========================
 
 ============================================================
-23. Game UI Architecture
+27. Game UI Architecture
 
 * Model, View, Controller
 
@@ -15,5 +15,26 @@ Model, View, Controller:
 * View: Widgets, UI elements
 * Model: Data that drives the widgets
 * Controller: Responsible for retrieving data from the model and passing to the view (Widget Controller)
+
+Classes to build:
+* UAuraUserWidget
+* UAuraWidgetController
+* AAuraHUD
+
+============================================================
+28. Aura User Widget and Widget Controller
+
+* AuraUserWidget
+* AuraWidgetController
+
+Create a C++ Widget:
+* New C++ Class->All Classes->Visual->Widget->User Widget
+
+Widget Controller:
+* Just a simple Object:
+* New C++ Class->Object
+
+The WidgetController will not know what widgets its associated with.
+The Widgets will know what their controller is.
 
 ============================================================
