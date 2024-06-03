@@ -267,3 +267,57 @@ For our PLAYER, we will set the Replication Mode to Mixed
 For ENEMIES, we will set the Replication Mode to Minimal
 
 ============================================================
+22. Init Abililty Actor Info
+
+------------------------
+Ability System Component has:
+* Owner Actor
+  * Class that actually owns the ASC
+* Avatar Actor
+  * Representation in the World with the ASC
+
+------------------------
+For Enemies:
+* Owner Actor and Avatar Actor are the same
+
+For Players:
+* Owner Actor = Player State
+* Avatar Actor = Character
+
+This function is used for this:
+UAbilitySystemComponent::InitAbilityActorInfo()
+
+WHEN to call InitAbilityActorInfo:
+* Must be done AFTER possession (i.e. the Controller has been set for the Pawn)
+
+Player-Controlled Character - ASC Lives on the Pawn (Note: NOT this project)
+  * PossessedBy on the Pawn (SERVER)
+  * AcknowledgePossession on the Pawn (CLIENT)
+
+Player-Controlled Character - ASC Lives on the PlayerState (like THIS project)
+  * PossessedBy on the Pawn (SERVER)
+  * OnRep_PlayerState (CLIENT)
+    * Not only do we need to know that the Pawn was possessed but ALSO that the PlayerState is valid
+
+OnRep_PlayerState:
+* Example of an OnRep Notify
+
+AI-Controlled Character
+* ASC Lives on the Pawn, so simpler
+* BeginPlay on both Server and Client
+------------------------
+
+Note on how we used Mixed Replication Mode for our Player Character:
+
+Mixed Replication Mode:
+
+For Mixed Replication Mode:  The OwnerActor's Owner must be the Controller.
+For Pawns, this is set automatically in PossessedBy().
+The PlayerState's Owner is automatically set to the Controller.
+***Therefore, if your OwnerActor is not the PlayerState, and you use Mixed Replication Mode, you must call SetOwner() on the OwnerActor to set its owner to the Controller.***
+
+We don't necessarily need to worry about this as we are setting the AbilitySystemComponent's OwnerActor to the PlayerState.
+But this is something that you should be aware of, as you may use a class that doesn't have its OwnerActor automatically set.
+
+
+============================================================

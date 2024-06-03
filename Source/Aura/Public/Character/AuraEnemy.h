@@ -23,6 +23,9 @@ public:
 	void HighlightActor() override;
 	void UnhighlightActor() override;
 
+protected:
+	virtual void BeginPlay() override;
+
 private:
 	UPROPERTY(BlueprintReadOnly , meta = (AllowPrivateAccess = true))
 	bool bHighlighted = false;

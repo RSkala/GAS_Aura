@@ -1,11 +1,10 @@
 // Copyright Richard Skala
 
+#include "Character/AuraEnemy.h"
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
-
-#include "Character/AuraEnemy.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogAuraEnemy, Log, All)
 
@@ -64,4 +63,12 @@ void AAuraEnemy::UnhighlightActor()
 	{
 		Weapon->SetRenderCustomDepth(false);
 	}
+}
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	check(AbilitySystemComponent != nullptr);
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
