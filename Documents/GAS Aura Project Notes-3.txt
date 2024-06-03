@@ -1,0 +1,52 @@
+=======================
+Section 4 - Attributes
+=======================
+
+============================================================
+23. Attributes
+
+-----------------------------------
+* We can have multiple AttributeSets
+* Multiple AttributeSets must be of a different class type
+* You can't have more that one AttributeSet of the same class type
+* It is perfectly acceptable to have all of your Attributes on the same AttributeSet
+  
+Example:
+* Primary Attributes
+* Secondary Attributes
+* Tertiary Attributes
+
+What are attributes?
+* Numerical quantities associated with some character
+* ALL attributes are floats
+* FGameplayAttributeData:  Attributes exist in this struct
+
+You can apply attributes values directly but the preferred way is through a Gameplay Effect
+
+Prediction:
+The client doesnt need to wait for the server's permission to change a value.
+The value can change immediately client-side and the server is informed of the change.
+The server can roll back changes that are invalid.
+
+-----------------------------------
+FGameplayAttributeData
+* Base Value
+* Current Value
+
+Base Value: Permament
+Current Value: Temporary Effects
+
+Note: Base Value is not always the "max" value, as it could change! Instead, you have a "MaxValue" attribute.
+
+Example:
+
+Attribute Set:
+* Health
+* MaxHealth
+* Mana
+* MaxMana
+
+So, a Health Bar could show:
+Fraction: Health / MaxHealth
+
+============================================================
