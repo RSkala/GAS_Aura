@@ -38,3 +38,47 @@ The WidgetController will not know what widgets its associated with.
 The Widgets will know what their controller is.
 
 ============================================================
+29. Globe Progress Bar
+
+Event Pre Construct:
+* Called before the game starts
+* For configuring how a widget is supposed to look
+
+WBP_GlobeProgressBar (Widget Blueprint)
+SizeBox
+* Size: Desired
+* Child Layout:
+  * Width Override:  250
+  * Height Override: 250
+  * Overlay: Everything gets stacked under this. This is what Overlays are good for.
+    * Image
+    * Progress Bar
+      * Style -> 
+        * Fill Image, changed fill color and opacity to white (so the image shows)
+        * Draw As: Change from "Box" to "Image"
+        * Background Image -> Tint -> Alpha = 0 (to hide the background)
+        * Bar Fill Type: Bottom to Top
+
+
+SizeBox
+ |- Overlay
+     |- Image
+     |- Progress Bar
+     |- Image
+
+Widgets:
+* Event Pre Construct
+  * This allows you to set and preview changes in your widget
+
+NOTE:
+* Create a function from a bunch of selected nodes:
+* Select all, Right-Click, then Collapse to Function
+
+
+Brush-> Use for images in Widgets
+* Type: Structure - Slate Brush
+
+For the Image, we exposed as a variable, and called Set Brush using a variable we created named Background Brush
+In the Details of the Background Brush variable, we set the Default value to some Ring texture
+
+============================================================
