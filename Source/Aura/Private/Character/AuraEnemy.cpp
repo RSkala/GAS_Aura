@@ -22,6 +22,7 @@ AAuraEnemy::AAuraEnemy()
 
 	// Ensure the ASC is replicated
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal); // Minimal for AI
 
 	// Construct the Attribute Set 
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");

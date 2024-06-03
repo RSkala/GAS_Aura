@@ -226,3 +226,44 @@ We need this so we can implement the pure virtual method GetAbilitySystemCompone
 virtual UAbilitySystemComponent* GetAbilitySystemComponent() const = 0;
 
 ============================================================
+21. Replication Mode
+
+
+Setting the Replication mode on the AbilitySystemComponent:
+
+
+
+/** How gameplay effects will be replicated to clients */
+UENUM()
+enum class EGameplayEffectReplicationMode : uint8
+{
+  /** Only replicate minimal gameplay effect info. Note: this does not work for Owned AbilitySystemComponents (Use Mixed instead). */
+  Minimal,
+  /** Only replicate minimal gameplay effect info to simulated proxies but full info to owners and autonomous proxies */
+  Mixed,
+  /** Replicate full gameplay info to all */
+  Full,
+};
+
+------------------------------------------------
+Full: 
+* Use Case: Single Player
+* Gameplay Effects are replicated to all clients
+
+Mixed:
+* Use Case: Multiplayer, Player-Controlled
+* Gameplay Effects are replicated to the owning client only. Gameplay Cues and Gameplay Tags replicated to all clients.
+
+Minimal:
+* Use Case: Multiplayer, AI-Controlled
+* Gameplay Effects are NOT replicated. Gameplay Cues and Gameplay Tags replicated to all clients.
+------------------------------------------------
+
+Gameplay Effects
+* Used to change Attribute values, e.g. cause damage, heal player
+
+------------------------------------------------
+For our PLAYER, we will set the Replication Mode to Mixed
+For ENEMIES, we will set the Replication Mode to Minimal
+
+============================================================

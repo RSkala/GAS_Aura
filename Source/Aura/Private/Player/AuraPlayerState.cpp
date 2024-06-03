@@ -15,6 +15,7 @@ AAuraPlayerState::AAuraPlayerState()
 
 	// Ensure the ASC is replicated
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed); // Mixed for Players
 
 	// Construct the Attribute Set 
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
