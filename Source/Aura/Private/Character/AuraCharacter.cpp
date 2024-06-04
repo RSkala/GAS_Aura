@@ -5,7 +5,9 @@
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -61,6 +63,17 @@ void AAuraCharacter::InitAbilityActorInfo()
 
 	// Initialize the ability actor info with the PlayerState as the OwnerActor and this AuraCharacter as the AvatarActor 
 	AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+
+	// PlayerControllers will be invalid for other players (client)
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		// Get the HUD from the player controller
+		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+		{
+			// HUD only valid on locally player controller
+			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
 
 	/*
 	UAbilitySystemComponent* PlayerStateAbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();

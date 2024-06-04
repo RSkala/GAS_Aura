@@ -120,3 +120,53 @@ In order to select the WidgetClass, select the Class Defaults tab:
 EditAnywhere seems to allow private access in the class
 
 ============================================================
+32. Overlay Widget Controller
+
+USTRUCT:
+* Basically a C++ struct with reflection
+* USTRUCT objects are NOT handled by garbage collection
+
+More info on USTRUCT:
+https://medium.com/@wojtek.zinczuk/hey-guys-a14f5e770045
+
+We will only have one OverlayWidgetController.
+We will put the OWC in the HUD (AuraHUD)
+
+Moving WidgetController initialization out of AAuraHUD::BeginPlay as we need access to the widget controller params
+
+checkf:
+* just like check but also prints a formatted string to the crash log
+
+checkf(OverlayWidgetClass, TEXT("Overlay Widget Class unitialized. Fill out BP_AuraHUD"));
+checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller Class unitialized. Fill out BP_AuraHUD"));
+
+----
+When is AAuraHUD::InitOverlay ready with everything?
+* When are where are all the key variables initialized?
+* My guess:
+  * PossessedBy (server, although widgets shouldnt be created on server)
+  * OnRep_PlayerState (client)
+    * AcknowledgePossession (client, but not on this project because of settings)
+
+AAuraCharacter::InitAbilityActorInfo
+
+HUD is accessible from the PlayerController
+
+Remember:
+* On the server, the server has ALL of the player controllers.
+* On a client, the client ONLY has its OWN player controller. The others will be null.
+
+BP_AuraHUD
+* Set OverlayWidgetClass here
+
+Confirm that the widget controller was set:
+
+We added this to AAuraUserWidget:
+
+	// We need a BeginPlay-like function to call as soon as the WidgetController is set
+	UFUNCTION(BlueprintImplementableEvent)
+	void WidgetControllerSet();
+
+So we can add this event in the Blueprint Graph to check if valid
+
+============================================================

@@ -11,6 +11,14 @@ class AURA_API AAuraHUD : public AHUD
 {
 	GENERATED_BODY()
 
+public:
+	class UOverlayWidgetController* GetOverlayWidgetController(const struct FWidgetControllerParams& WidgetControllerParams);
+	void InitOverlay(
+		APlayerController* InPlayerController,
+		APlayerState* InPlayerState,
+		class UAbilitySystemComponent* InAbilitySystemComponent,
+		class UAttributeSet* InAuraAttributeSet);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -21,4 +29,10 @@ protected:
 private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UAuraUserWidget> OverlayWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<class UOverlayWidgetController> OverlayWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UOverlayWidgetController> OverlayWidgetControllerClass;
 };

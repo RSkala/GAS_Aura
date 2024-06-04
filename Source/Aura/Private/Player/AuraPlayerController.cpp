@@ -38,8 +38,11 @@ void AAuraPlayerController::BeginPlay()
 	// Add Input Mapping Context
 	// * Note: We can check the Input Component class in: Edit->Project Settings->Engine->Input->Default Classes->Default Input Component Class
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	Subsystem->AddMappingContext(AuraInputMappingContext, 0); // We only have one InputMappingContext, so just set the priority to 0.
+	//check(Subsystem); // Note: We do not want a "check" here as we will not get a valid subsystem unless we are on the locally controlled machine
+	if (Subsystem != nullptr)
+	{
+		Subsystem->AddMappingContext(AuraInputMappingContext, 0); // We only have one InputMappingContext, so just set the priority to 0.
+	}
 
 	// Set various Player Controller mouse / mouse cursor settings
 	bShowMouseCursor = true; // Set the mouse cursor to be visible

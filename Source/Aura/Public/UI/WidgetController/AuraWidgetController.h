@@ -6,13 +6,47 @@
 #include "UObject/NoExportTypes.h"
 #include "AuraWidgetController.generated.h"
 
-/**
- * 
- */
+USTRUCT(BlueprintType)
+struct FWidgetControllerParams
+{
+	GENERATED_BODY()
+
+public:
+	FWidgetControllerParams() {}
+	FWidgetControllerParams(
+		APlayerController* InPlayerController,
+		APlayerState* InPlayerState,
+		class UAbilitySystemComponent* InAbilitySystemComponent,
+		class UAttributeSet* InAuraAttributeSet)
+	: PlayerController(InPlayerController)
+	, PlayerState(InPlayerState)
+	, AbilitySystemComponent(InAbilitySystemComponent)
+	, AttributeSet(InAuraAttributeSet)
+
+	{}
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<APlayerController> PlayerController = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<APlayerState> PlayerState = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
+};
+
 UCLASS()
 class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
 
 protected:
 	// The AuraWidgetController will need to access:
