@@ -170,3 +170,57 @@ We added this to AAuraUserWidget:
 So we can add this event in the Blueprint Graph to check if valid
 
 ============================================================
+33. Broadcasting Initial Values
+
+We use Dynamic Multicast Delegates because we can assign Events in Blueprints with them.
+
+* Dynamic: Can be used in Blueprints
+* Multicast: Because multiple Blueprints can bind to the delegate
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
+
+* Using "Signature" at the end to specify this is the signature of the delegate (not required, but helpful)
+* The "Signature" makes it clear this is the delegate TYPE and the "OnHealthChanged" is the Delegate itself:
+
+UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes") // NOTE: The "bar" allows for subcategories in Details, e.g. GAS -> Attributes
+FOnHealthChangedSignature OnHealthChanged;
+
+
+Remember these attribute getters were generated via a macro:
+
+  // Broadcast the real value of attributes
+  OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
+  OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
+
+Changed UOverlayWidgetController from UCLASS to:
+UCLASS(BlueprintType, Blueprintable)
+
+UCLASS specifiers:
+* BlueprintType: Can be used as a variable in Blueprints and Blueprint Event Graphs
+* Blueprintable: Can make a Blueprint based on the class
+
+Now that UOverlayWidgetController is Blueprintable, we created a Blueprint BP_OverlayWidgetController
+and then changed the OverlayWidgetController class to BP_OverlayWidgetController (instead of a raw C++ class)
+
+In the WBP_HealthGlobe (which has its own WidgetController, which is set from the WBP_Overlay graph)
+On WidgetControllerSet, we BIND the event OnHealthChanged_Event
+by dragging and selecting "Assign On Health Changed"
+ (and did the same with Assign On Max Health Changed)
+
+NOTE:
+* Assign seems to create the event node for you
+* Bind only creates the execution node, and you have to make an event and connect the pins
+  * So basically the same, but you have to do more steps
+
+
+We Set Progress Bar Health whenever Health gets set and whenever MaxHealth gets set
+
+--
+To clean up Blueprint Graphs, use a Sequence:
+* Right-click->Utilities->Flow Control->Sequence
+* Performs the execution pins in sequence
+* This way, you dont have to have super long chains of nodes
+
+
+============================================================

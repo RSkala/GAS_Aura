@@ -38,6 +38,11 @@ void AAuraHUD::InitOverlay(
 	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParams);
 	OverlayWidget->SetWidgetController(WidgetController);
 
+	// Now that the widget controller has been created and set, we can now broadcast the initial attribute values.
+	// Note that it is expected that the Blueprints have already been bound to the delegates.
+	// We did this in the WBP_Overlay Event WidgetControllerSet, which is called when SetWidgetController is called (above)
+	WidgetController->BroadcastInitialValues();
+
 	// Add the overlay widget to the viewport
 	OverlayWidget->AddToViewport();
 }

@@ -48,6 +48,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
 
+	virtual void BroadcastInitialValues();
+
 protected:
 	// The AuraWidgetController will need to access:
 	// * AbilitySystemComponent, AttribteSet, PlayerState, PlayerController
