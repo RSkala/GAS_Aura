@@ -101,3 +101,22 @@ To make variables Instance-editable:
 * Click the eyeball icon (so it is an open eye). Now you can edit the globe in the overlay.
 
 ============================================================
+31. Aura HUD
+
+Set HUD Class in Game Mode
+* Open the Game Mode -> Classes -> HUD Class
+
+Create HUD Class:
+* New C++ Class -> HUD
+
+Note:
+* AHUD is NOT a widget blueprint. It derives from AActor.
+
+In order to select the WidgetClass, select the Class Defaults tab:
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UAuraUserWidget> OverlayWidgetClass;
+
+EditAnywhere seems to allow private access in the class
+
+============================================================
