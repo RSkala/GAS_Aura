@@ -82,3 +82,22 @@ For the Image, we exposed as a variable, and called Set Brush using a variable w
 In the Details of the Background Brush variable, we set the Default value to some Ring texture
 
 ============================================================
+30. Health Globe
+
+WBP_Overlay
+ |- Canvas Panel
+
+Note:
+* Canvas Panel is more expensive so use them sparingly if possible
+* Use SizeBox and Overlay when possible, as they are more efficient (e.g. like WBP_GlobeProgressBar)
+
+To quickly view what the overlay will look in the game, edit the Level Blueprint:
+* Open Level Blueprint and open Graph
+* In Event BeginPlay, Right-click->User Interface->Create Widget
+* Set the Class to WBP_Overlay
+* Drag off from the Return Value and select Add to Viewport
+
+To make variables Instance-editable:
+* Click the eyeball icon (so it is an open eye). Now you can edit the globe in the overlay.
+
+============================================================
