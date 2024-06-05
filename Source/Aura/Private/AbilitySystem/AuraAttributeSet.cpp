@@ -12,7 +12,7 @@ UAuraAttributeSet::UAuraAttributeSet()
 	UE_LOG(LogAuraAttributeSet, Log, TEXT("UAuraAttributeSet::UAuraAttributeSet - %s"), *GetName());
 
 	// EXPERIMENTAL
-	InitHealth(50.0f); // DO NOT COMMIT CHANGES
+	InitHealth(50.0f); // 100.0f
 	InitMaxHealth(100.0f);
 	InitMana(50.0f);
 	InitMaxMana(50.0f);

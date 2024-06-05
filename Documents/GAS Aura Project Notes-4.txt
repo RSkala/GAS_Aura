@@ -263,3 +263,21 @@ This is all set up for the Dependencies are all only one way:
 * OverlayWidgetController knows nothing of the widgets that are bound to its delegates
 
 ============================================================
+35. Callbacks for Mana Changes
+
+* Mostly copy-paste duplicating from Health, except with Mana
+
+Also changed the pickup effect in AAuraEffectActor::OnBeginOverlap:
+
+    UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
+    MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth() + 25.0f);
+    MutableAuraAttributeSet->SetMana(AuraAttributeSet->GetMana() - 25.0f);
+
+------------------
+To quickly test multiplayer:
+
+In Play drop-down:
+* Number of players: 2
+* Net Mode: Play as Listen Server
+
+============================================================
