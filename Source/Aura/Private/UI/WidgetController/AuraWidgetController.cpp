@@ -15,3 +15,8 @@ void UAuraWidgetController::BroadcastInitialValues()
 {
 	// Intentionally empty
 }
+
+void UAuraWidgetController::BindCallbacksToDependencies()
+{
+	// Intentionally empty
+}

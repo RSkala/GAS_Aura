@@ -222,5 +222,44 @@ To clean up Blueprint Graphs, use a Sequence:
 * Performs the execution pins in sequence
 * This way, you dont have to have super long chains of nodes
 
+============================================================
+34. Listening for Attribute Changes
+
+The UAbilitySystemComponent already has a delegate for handling attribute changes:
+
+AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate()
+
+Note that FOnGameplayAttributeValueChange is NOT Dynamic so we can't use AddDynamic.
+So we have to use AddUObject or AddUFunction
+
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameplayAttributeValueChange, const FOnAttributeChangeData&);
+
+
+void HealthChanged(const struct FOnAttributeChangeData& AttributeChangeData) const;
+
+const UAuraAttributeSet* const AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
+
+AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+  AuraAttributeSet->GetHealthAttribute()).AddUObject(this, &UOverlayWidgetController::HealthChanged);
+
+AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+  AuraAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
+
+
+void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& AttributeChangeData) const
+{
+  UE_LOG(LogOverlayWidgetController, Log, TEXT("UOverlayWidgetController::HealthChanged - %s"), *GetName());
+  OnHealthChanged.Broadcast(AttributeChangeData.NewValue);
+}
+
+--------------------
+We put BindCallbacksToDependencies() AuraHUD::GetOverlayWidgetController()
+as this is where the OverlayWidgetController is created and events are bound here
+
+--------------------
+This is all set up for the Dependencies are all only one way:
+* Our AbilitySystemComponent knows nothing about the OverlayWidgetController
+* OverlayWidgetController knows nothing of the widgets that are bound to its delegates
 
 ============================================================

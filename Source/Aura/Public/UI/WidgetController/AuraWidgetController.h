@@ -49,6 +49,7 @@ public:
 	void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
 
 	virtual void BroadcastInitialValues();
+	virtual void BindCallbacksToDependencies();
 
 protected:
 	// The AuraWidgetController will need to access:

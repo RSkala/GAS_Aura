@@ -16,6 +16,12 @@ class AURA_API UOverlayWidgetController : public UAuraWidgetController
 
 public:
 	virtual void BroadcastInitialValues() override;
+	virtual void BindCallbacksToDependencies() override;
+
+protected:
+	//DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameplayAttributeValueChange, const FOnAttributeChangeData&);
+	void HealthChanged(const struct FOnAttributeChangeData& AttributeChangeData) const;
+	void MaxHealthChanged(const struct FOnAttributeChangeData& AttributeChangeData) const;
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
